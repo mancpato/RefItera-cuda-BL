@@ -1,3 +1,18 @@
+/**
+ * @file main.c
+ * @brief Orquestador principal para comparar refinamiento iterativo en CPU vs GPU.
+ *
+ * Prepara una matriz mal condicionada, inicializa los datos y llama a las
+ * rutinas de resolución tanto en BLAS (CPU) como en CUDA (GPU) para medir
+ * diferencias numéricas y de convergencia.
+ *
+ * @author Miguel Ángel Norzagaray Cosío
+ * @date 2025-12-13
+ * @institution UABCS / DASC
+ *
+ * @note Compilar usando el comando 'make' (genera versiones debug y release).
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> // Necesario para memcpy

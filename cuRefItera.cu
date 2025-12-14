@@ -1,14 +1,14 @@
 /**
- * cuRefItera.cu
+ * @file cuRefItera.cu
+ * @brief Implementación acelerada por GPU usando CUDA (cuBLAS + cuSOLVER).
  *
- * Implementación en CUDA del método de refinamiento iterativo
- * para resolver sistemas lineales.
- * 
- * Compilar con: nvcc -c -std=c++17 cuRefItera.cu -o cuRefItera.o
- * Ligar con: -lcublas -lcusolver
- * 
- * Miguel Ángel Norzagaray Cosío
- * UABCS/dasc - 20251213
+ * Realiza la factorización LU y el refinamiento iterativo aprovechando
+ * el paralelismo masivo y las unidades FMA de la GPU.
+ *
+ * @author Miguel Ángel Norzagaray Cosío
+ * @date 2025-12-13
+ *
+ * @note Requiere librerías: -lcusolver -lcublas
  */
 
 #include <stdio.h>

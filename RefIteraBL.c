@@ -1,12 +1,14 @@
-/** 
+/**
  * @file RefIteraBL.c
- * @brief Implementación de refinamiento iterativo en CPU usando BLAS/LAPACK.
- * 
- * Compilar con: gcc -c -std=c17 RefIteraBL.c -o RefIteraBL.o -I/path/to/lapack/includes
- * Ligar con:  -llapack -lblas -lm
- * 
- * Miguel Ángel Norzagaray Cosío
- * UABCS/dasc - 20251213
+ * @brief Implementación de refinamiento iterativo usando LAPACK y BLAS (CPU).
+ *
+ * Contiene la lógica para resolver sistemas lineales Ax=b reutilizando
+ * la factorización LU y refinando la solución iterativamente para mitigar
+ * errores de redondeo en aritmética de punto flotante.
+ *
+ * @author Miguel Ángel Norzagaray Cosío
+ * @date 2025-12-13
+ * * @see RefItera.h
  */
 
 #include <stdio.h>
@@ -71,11 +73,11 @@ void cpu_refinement(int N, double *h_A, double *h_b, double *h_x, int max_iter)
 
         // Criterio de parada
         if (current_norm >= prev_norm && k > 0) {
-            printf("STOP: El error dejó de disminuir.\n");
+            printf("El error dejó de disminuir.\n");
             break;
         }
         if (current_norm == 0.0) {
-            printf("STOP: Residuo cero exacto.\n");
+            printf("Residuo cero exacto.\n");
             break;
         }
         prev_norm = current_norm;
