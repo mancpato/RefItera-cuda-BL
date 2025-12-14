@@ -1,0 +1,16 @@
+# --- Archivos de Compilación ---
+*.o
+*.obj
+
+# --- Ejecutables (según tu Makefile) ---
+RefItera_debug
+RefItera_release
+gpu_refine
+a.out
+
+# --- Temporales y del Sistema ---
+# Archivos de respaldo de editores (nano/vim/gedit)
+*~
+*.swp
+# Carpetas de configuración de VS Code (opcional)
+.vscode/
