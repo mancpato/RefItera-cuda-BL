@@ -1,3 +1,11 @@
+/**
+ * @file RefItera.h
+ * @brief Definiciones de funciones para el módulo de Refinamiento Iterativo.
+ *
+ * Expone las interfaces compatibles con C (extern "C") para las implementaciones
+ * de CPU y GPU.
+ */
+
 #ifndef REF_ITERA_H
 #define REF_ITERA_H
 
