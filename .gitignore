@@ -7,6 +7,7 @@ RefItera_debug
 RefItera_release
 gpu_refine
 a.out
+main_magma
 
 # --- Temporales y del Sistema ---
 # Archivos de respaldo de editores (nano/vim/gedit)
