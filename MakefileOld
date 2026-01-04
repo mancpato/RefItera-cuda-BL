@@ -1,28 +1,16 @@
-# --- Makefile RefItera: CPU (BLAS/LAPACK) + GPU (CUDA) + Híbrido (MAGMA) ---
-
+# Makefile para RefItera (CUDA + CPU BLAS)
 NVCC = nvcc
-
-# 1. Configuración de MAGMA
-MAGMA_DIR = /usr/local/magma
-MAGMA_INC = -I$(MAGMA_DIR)/include
-MAGMA_LIB = -L$(MAGMA_DIR)/lib -lmagma
-
-# 2. Flags de compilación y enlazado
-# Nota: Agregamos -lopenblas y -lgomp (OpenMP)
-LDFLAGS = $(MAGMA_LIB) -lcusolver -lcublas -lopenblas -llapack -lm -lgomp
-
-# Nota: -Xcompiler -fopenmp es necesario para pasar la bandera a gcc/g++
-COMMON_FLAGS = -std=c++17 -Xcompiler -Wall -Xcompiler -fopenmp $(MAGMA_INC)
-
+LDFLAGS = -lcusolver -lcublas -llapack -lblas -lm
+COMMON_FLAGS = -std=c++17 -Xcompiler -Wall
 DEBUG_FLAGS = -g -G -DDEBUG
 RELEASE_FLAGS = -O3 -DNDEBUG
 
 TARGET_DEBUG = RefItera_debug
 TARGET_RELEASE = RefItera_release
 
-# 3. Lista de Objetos (Agregamos magmaRefItera)
-OBJS_DEBUG = main.dbg.o cuRefItera.dbg.o RefIteraBL.dbg.o magmaRefItera.dbg.o
-OBJS_RELEASE = main.rel.o cuRefItera.rel.o RefIteraBL.rel.o magmaRefItera.rel.o
+# Agregamos RefIteraBL a los objetos
+OBJS_DEBUG = main.dbg.o cuRefItera.dbg.o RefIteraBL.dbg.o
+OBJS_RELEASE = main.rel.o cuRefItera.rel.o RefIteraBL.rel.o
 
 all: release debug
 
@@ -35,7 +23,7 @@ $(TARGET_DEBUG): $(OBJS_DEBUG)
 $(TARGET_RELEASE): $(OBJS_RELEASE)
 	$(NVCC) $(OBJS_RELEASE) -o $(TARGET_RELEASE) $(LDFLAGS)
 
-# --- Reglas de Compilación ---
+# --- Compilación ---
 
 # Main
 main.dbg.o: main.c RefItera.h
@@ -49,17 +37,11 @@ cuRefItera.dbg.o: cuRefItera.cu RefItera.h
 cuRefItera.rel.o: cuRefItera.cu RefItera.h
 	$(NVCC) -c cuRefItera.cu -o cuRefItera.rel.o $(COMMON_FLAGS) $(RELEASE_FLAGS)
 
-# CPU (C Standard + BLAS)
+# CPU (C Standard) - Nota: nvcc compila .c usando gcc internamente
 RefIteraBL.dbg.o: RefIteraBL.c RefItera.h
 	$(NVCC) -c RefIteraBL.c -o RefIteraBL.dbg.o $(COMMON_FLAGS) $(DEBUG_FLAGS)
 RefIteraBL.rel.o: RefIteraBL.c RefItera.h
 	$(NVCC) -c RefIteraBL.c -o RefIteraBL.rel.o $(COMMON_FLAGS) $(RELEASE_FLAGS)
-
-# MAGMA (C++ Híbrido) - Nueva regla
-magmaRefItera.dbg.o: magmaRefItera.cpp RefItera.h
-	$(NVCC) -c magmaRefItera.cpp -o magmaRefItera.dbg.o $(COMMON_FLAGS) $(DEBUG_FLAGS)
-magmaRefItera.rel.o: magmaRefItera.cpp RefItera.h
-	$(NVCC) -c magmaRefItera.cpp -o magmaRefItera.rel.o $(COMMON_FLAGS) $(RELEASE_FLAGS)
 
 clean:
 	rm -f *.o $(TARGET_DEBUG) $(TARGET_RELEASE)

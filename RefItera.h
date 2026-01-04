@@ -24,6 +24,9 @@ void gpu_refinement(int N, double *A_host, double *b_host, double *x_host, int m
 // Versión CPU (BLAS/LAPACK)
 void cpu_refinement(int N, double *h_A, double *h_b, double *h_x, int max_iter);
 
+// Versión MAGMA (Híbrido CPU/GPU)
+void magma_refinement(int N, double *h_A, double *h_b, double *h_x, int max_iter);
+
 #ifdef __cplusplus
 }
 #endif

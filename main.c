@@ -21,8 +21,14 @@
 int main() 
 {
     int N = 10;
+
+    puts(
+    "Resolviendo una matriz complicada de 10x10\n"
+    "usando refinamiento iterativo en CPU (BLAS/LAPACK) y GPU (CUDA/cuBLAS).\n"
+    );
     
     // Matriz "Tramposa"
+    /* Esta matriz fue encontrada con un script de Matlab */
     double A_raw[] = {
          1,  4,  0, -9,  1, 10, -2, -1,  2, -6,
          9,  8,  3,  2,  2, 10, -7,  1, 10, -4,
@@ -72,7 +78,20 @@ int main()
 
     printf("Resultado GPU (primeros 3): %.15f %.15f %.15f\n", x[0], x[1], x[2]);
 
+    // ---------------------------------------------------------
+    // RONDA 3: MAGMA (Hybrid)
+    // ---------------------------------------------------------
+    printf("\n--------------------------------------------------\n");
+    printf("Reiniciando x para la prueba en MAGMA...\n");
+    memcpy(x, b, N * sizeof(double)); 
+
+    magma_refinement(N, A, b, x, 20);
+
+    printf("Resultado MAGMA: %.15f %.15f %.15f\n", x[0], x[1], x[2]);
+
     // Limpieza
     free(A); free(b); free(x);
     return 0;
 }
+
+/* Fin de main.c */
